@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Plant Disease Classifier (SVM)</title>
+  <style>
+    body{ font-family: Arial, sans-serif; background:#f7fafc; color:#0f1724; padding:24px;}
+    .card{ background:white; max-width:800px; margin: auto; padding:20px; border-radius:10px; box-shadow:0 6px 20px rgba(16,24,40,0.06); }
+    .row{ display:flex; gap:12px; flex-wrap:wrap; }
+    input[type="number"], input[type="file"]{ padding:8px; border-radius:6px; border:1px solid #e6eef0; width:100%; }
+    label{ font-size:13px; color:#475569; }
+    button{ padding:10px 14px; background:#1fb6ae; color:white; border:0; border-radius:8px; cursor:pointer; }
+    .result{ margin-top:12px; padding:12px; background:#eefaf8; border-left:4px solid #16a08f; border-radius:6px; }
+    pre{ background:#0b1220; color:#f8fafc; padding:10px; border-radius:6px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Plant Disease Classifier (SVM)</h2>
+    <p>Upload a leaf image (recommended) or fill numeric features manually.</p>
+
+    <form method="post" enctype="multipart/form-data">
+      <div style="margin-bottom:10px;">
+        <label>Upload Image (png/jpg/jpeg):</label><br>
+        <input type="file" name="image" accept="image/*">
+      </div>
+
+      <hr>
+
+      <h4>Manual features (optional)</h4>
+      <div class="row">
+        <div style="flex:1; min-width:150px;">
+          <label>mean_R</label>
+          <input type="number" step="any" name="mean_R" placeholder="e.g. 140">
+        </div>
+        <div style="flex:1; min-width:150px;">
+          <label>mean_G</label>
+          <input type="number" step="any" name="mean_G" placeholder="e.g. 110">
+        </div>
+        <div style="flex:1; min-width:150px;">
+          <label>mean_B</label>
+          <input type="number" step="any" name="mean_B" placeholder="e.g. 90">
+        </div>
+
+        <div style="flex:1; min-width:150px;">
+          <label>std_gray</label>
+          <input type="number" step="any" name="std_gray" placeholder="e.g. 22.5">
+        </div>
+        <div style="flex:1; min-width:150px;">
+          <label>edge_density</label>
+          <input type="number" step="any" name="edge_density" placeholder="e.g. 0.045">
+        </div>
+        <div style="flex:1; min-width:150px;">
+          <label>hue_mean</label>
+          <input type="number" step="any" name="hue_mean" placeholder="e.g. 28">
+        </div>
+        <div style="flex:1; min-width:150px;">
+          <label>area_ratio</label>
+          <input type="number" step="any" name="area_ratio" placeholder="e.g. 0.32">
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button type="submit">Predict</button>
+      </div>
+    </form>
+
+    {% if error %}
+      <div style="margin-top:12px; color:#b91c1c;">Error: {{ error }}</div>
+    {% endif %}
+
+    {% if prediction %}
+      <div class="result">
+        <strong>Prediction:</strong> {{ prediction }}
+        <div style="margin-top:8px;">
+          <strong>Probabilities:</strong>
+          <pre>{{ probabilities }}</pre>
+        </div>
+        <div style="margin-top:8px;">
+          <strong>Used features:</strong>
+          <pre>{{ features }}</pre>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
